@@ -13,7 +13,6 @@ public class ProdutoService {
         this.produtoRepository = produtoRepository;
     }
 
-
     public Produto criarProduto(Produto produto) {
         produtoRepository.save(produto);
         return produto;
