@@ -1,6 +1,8 @@
 package com.example.exerciciossb.service;
 
-import com.example.exerciciossb.models.Cliente;
+import com.example.exerciciossb.dto.ClienteRequest;
+import com.example.exerciciossb.dto.ClienteResponse;
+import com.example.exerciciossb.models.entities.Cliente;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -8,7 +10,7 @@ import org.springframework.web.server.ResponseStatusException;
 @Service
 public class CadastroService {
 
-    public Cliente getClienteById(int idBusca) {
+    public ClienteResponse getClienteById(int idBusca) {
         int id;
         String nome;
         String cpf;
@@ -67,7 +69,19 @@ public class CadastroService {
             default:
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Cliente não encontrado");
         }
-        return new Cliente(id, nome, cpf);
+
+        Cliente cliente = new Cliente(id, nome, cpf);
+
+        return new ClienteResponse(cliente.getNome(), cliente.getCpf());
+
     }
 
+    public ClienteResponse cadastrarCliente(ClienteRequest cliente) {
+
+        int idGerado = (int) (Math.random() * 1000); // Gera um ID aleatório para o cliente
+
+        Cliente clienteCadastrado = new Cliente(idGerado, cliente.getNome(), cliente.getCpf());
+
+        return new ClienteResponse(clienteCadastrado.getNome(), clienteCadastrado.getCpf());
+    }
 }

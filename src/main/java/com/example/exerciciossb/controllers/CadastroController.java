@@ -1,11 +1,13 @@
 package com.example.exerciciossb.controllers;
 
-import com.example.exerciciossb.models.Cliente;
+import com.example.exerciciossb.dto.ClienteRequest;
+import com.example.exerciciossb.dto.ClienteResponse;
 import com.example.exerciciossb.service.CadastroService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/cadastro")
@@ -18,8 +20,15 @@ public class CadastroController {
     }
 
     @GetMapping("/buscar")
-    public Cliente buscarClientePorId(
+    public ClienteResponse buscarClientePorId(
             @RequestParam(name = "id") int idBusca) {
         return cadastroService.getClienteById(idBusca);
+    }
+
+    @PostMapping("/cadastrar")
+    public ResponseEntity<ClienteResponse> cadastrarCliente(
+            @Valid @RequestBody ClienteRequest clienteRequest) {
+        ClienteResponse response = cadastroService.cadastrarCliente(clienteRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 }

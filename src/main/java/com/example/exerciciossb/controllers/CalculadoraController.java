@@ -1,8 +1,9 @@
 package com.example.exerciciossb.controllers;
 
-import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
+
+import java.util.Collections;
 
 @RestController
 @RequestMapping("/calculadora")
@@ -16,12 +17,14 @@ public class CalculadoraController {
     }
 
     @GetMapping("/subtrair")
-    public int subtrair(
-            @RequestParam(name = "primeiroValor", required = true) int a,
-            @RequestParam(name = "segundoValor", required = true) int b) {
-        if (b>a) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O segundo valor deve ser menor que o primeiro valor");
+    public ResponseEntity<?> subtrair(
+            @RequestParam(name = "primeiroValor") int a,
+            @RequestParam(name = "segundoValor") int b) {
+        if (b > a) {
+            return ResponseEntity.badRequest().body(
+                    Collections.singletonMap("message", "O segundo valor deve ser menor ou igual ao primeiro valor")
+            );
         }
-        return a - b;
+        return ResponseEntity.ok(Collections.singletonMap("result", a - b));
     }
 }

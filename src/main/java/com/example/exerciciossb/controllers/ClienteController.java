@@ -1,6 +1,6 @@
 package com.example.exerciciossb.controllers;
 
-import com.example.exerciciossb.models.Cliente;
+import com.example.exerciciossb.models.entities.Cliente;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,7 +18,7 @@ public class ClienteController {
     }
 
     @GetMapping("/byid2")
-    public Cliente getClienteById2(@RequestParam(name = "id", required = true) int id, @RequestParam(name = "nome", defaultValue = "Desconecido") String nome) {
+    public Cliente getClienteById2(@RequestParam(name = "id") int id, @RequestParam(name = "nome", defaultValue = "Desconhecido") String nome) {
         return new Cliente(id, nome, "987.654.321-00");
     }
 
